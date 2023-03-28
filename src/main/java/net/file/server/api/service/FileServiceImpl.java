@@ -1,8 +1,10 @@
 package net.file.server.api.service;
 
 import lombok.extern.slf4j.Slf4j;
+import net.file.server.api.configuration.DefaultDirectory;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -20,10 +22,13 @@ import java.util.stream.Collectors;
 @Slf4j
 public class FileServiceImpl implements IFileService {
 
+    @Autowired
+    DefaultDirectory defaultDirectory;
+
     @Override
     public List<String> allFiles(Path path) throws IOException {
         log.info("Getting all files listed under: " + path.toString());
-        Path uploadDirectory = IFileService.uploadDirectory;
+        Path uploadDirectory = defaultDirectory.getPath();
         List<String> allFiles = Files.list(uploadDirectory).filter(Files::isRegularFile)
                 .map(Path::getFileName)
                 .map(Path::toString)
@@ -39,7 +44,7 @@ public class FileServiceImpl implements IFileService {
                 fileCode, FilenameUtils.getExtension(fileName));
         newFileName = replaceSpacesWithdDash(newFileName);
         try (InputStream inputStream = multipartFile.getInputStream()) {
-            Path filePath = uploadDirectory.resolve(newFileName);
+            Path filePath = defaultDirectory.getPath().resolve(newFileName);
             Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException io) {
             log.info("Encountered Issue: " + io.getLocalizedMessage());
@@ -51,7 +56,7 @@ public class FileServiceImpl implements IFileService {
     @Override
     public Resource fetchFileAsResource(String fileCode) throws IOException {
         log.info("Fetching file with name or with code: " + fileCode);
-        Path file = Files.list(uploadDirectory)
+        Path file = Files.list(defaultDirectory.getPath())
                 .filter(e -> e.getFileName().toString().contains(fileCode))
                 .findFirst()
                 .orElseThrow(() -> new IOException("No such file present"));
