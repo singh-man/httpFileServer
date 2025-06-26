@@ -20,5 +20,4 @@ public interface IFileService {
     default String replaceSpacesWithdDash(String text) {
         return Stream.of(text.split(" ")).collect(Collectors.joining("-"));
     }
-
 }

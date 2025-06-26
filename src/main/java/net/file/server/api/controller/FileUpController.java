@@ -1,7 +1,6 @@
 package net.file.server.api.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import lombok.extern.slf4j.Slf4j;
 import net.file.server.api.service.IFileService;
 import net.file.server.api.upload.FileUploadResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +30,9 @@ public class FileUpController {
     @Operation(summary = "uploads one file/photo/video to server", hidden = true)
     public ResponseEntity<FileUploadResponse> uploadFile(
             @RequestParam("file") MultipartFile multipartFile) throws IOException {
-        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        var fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
         long size = multipartFile.getSize();
-        String fileCode = fileService.saveFile(fileName, multipartFile);
+        var fileCode = fileService.saveFile(fileName, multipartFile);
         return new ResponseEntity<>(new FileUploadResponse(fileName,
                 "/downloadFile/" + fileCode, size), HttpStatus.OK);
     }
@@ -44,9 +43,9 @@ public class FileUpController {
             @RequestParam("files") List<MultipartFile> multipartFiles) throws IOException {
         List<FileUploadResponse> res = new ArrayList<>();
         for (MultipartFile multipartFile : multipartFiles) {
-            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+            var fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
             long size = multipartFile.getSize();
-            String fileCode = fileService.saveFile(fileName, multipartFile);
+            var fileCode = fileService.saveFile(fileName, multipartFile);
             res.add(new FileUploadResponse(fileName, "/downloadFile/" + fileCode, size));
         }
         return new ResponseEntity<>(res, HttpStatus.OK);
@@ -67,8 +66,8 @@ public class FileUpController {
             return new ResponseEntity<>("File not found", HttpStatus.NOT_FOUND);
         }
 
-        String contentType = "application/octet-stream";
-        String headerValue = "attachment; filename=\"" + resource.getFilename() + "\"";
+        var contentType = "application/octet-stream";
+        var headerValue = "attachment; filename=\"" + resource.getFilename() + "\"";
 
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(contentType))
