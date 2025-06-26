@@ -19,7 +19,7 @@ public class FileListController {
     private IFileService fileService;
 
     @Autowired
-    DefaultDirectory defaultDirectory;
+    private DefaultDirectory defaultDirectory;
 
     @Value("${server.port}")
     private String port;
@@ -36,7 +36,7 @@ public class FileListController {
     @GetMapping("filesURL")
     @Operation(summary = "gives the complete URL of the file to be downloaded")
     public ResponseEntity<List<String>> downloadFiles() throws IOException {
-        List<String> allFiles = fileService.allFiles(defaultDirectory.getPath());
+        var allFiles = fileService.allFiles(defaultDirectory.getPath());
 
         List<String> processedFiles = allFiles.stream()
                 .map(e -> String.format("http://%s:%s/down/%s", host, port, e))

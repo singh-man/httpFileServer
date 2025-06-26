@@ -39,8 +39,8 @@ public class FileServiceImpl implements IFileService {
     @Override
     public String saveFile(String fileName, MultipartFile multipartFile) throws IOException {
         log.info("Saving file: " + fileName);
-        String fileCode = RandomStringUtils.randomAlphanumeric(8);
-        String newFileName = String.format("%s-%s.%s", FilenameUtils.removeExtension(fileName),
+        var fileCode = RandomStringUtils.randomAlphanumeric(8);
+        var newFileName = String.format("%s-%s.%s", FilenameUtils.removeExtension(fileName),
                 fileCode, FilenameUtils.getExtension(fileName));
         newFileName = replaceSpacesWithdDash(newFileName);
         try (InputStream inputStream = multipartFile.getInputStream()) {

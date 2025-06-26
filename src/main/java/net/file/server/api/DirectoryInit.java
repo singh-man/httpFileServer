@@ -24,9 +24,9 @@ public class DirectoryInit implements ApplicationRunner {
 
         if (nonOptionArgs.size() > 1) throw new RuntimeException("Only 1 directory path is allowed");
 
-        String dir = nonOptionArgs.size() == 1 ? nonOptionArgs.get(0) : defaultDirectory.getPath().toString();
+        var dir = nonOptionArgs.size() == 1 ? nonOptionArgs.get(0) : defaultDirectory.getPath().toString();
 
-        File file = new File(dir);
+        var file = new File(dir);
         if (file.exists()) {
             if (file.isFile()) throw new RuntimeException("Must be a directory");
         } else {
