@@ -7,8 +7,11 @@ import io.swagger.v3.oas.annotations.info.Info;
 @OpenAPIDefinition(
         info = @Info(
                 title = "HTTP based File Server",
-                description = "" +
-                        "An Http based File Server; can be used to upload media as well",
+                description = """
+                        An Http based File Server; can be used to upload media as well
+                        default directory is set to `user.home`
+                        Please contact developer to change this directory
+                        """,
                 contact = @Contact(
                         name = "Manish Singh",
 //                        url = "https://reflectoring.io",

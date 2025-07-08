@@ -16,7 +16,7 @@ import java.util.List;
 public class DirectoryInit implements ApplicationRunner {
 
     @Autowired
-    DefaultDirectory defaultDirectory;
+    private DefaultDirectory defaultDirectory;
 
     @Override
     public void run(ApplicationArguments args) {
