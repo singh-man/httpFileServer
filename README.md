@@ -8,4 +8,8 @@ Spring Doc OpenApi integrated, check Swagger page, check logs to get the complet
 
 and
 
-`http://<host>:<port>/swagger-ui/index.html` 
+`http://<host>:<port>/swagger-ui/index.html`
+
+## Quarkus conversion
+
+An isolated Quarkus version of this project is available in [`quarkus/`](quarkus/README.md).
